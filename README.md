@@ -96,7 +96,3 @@ Manila_Payroll/
 ## 📄 **License**
 
 This project is for assessment/demo purposes only.
-
----
-
-**Good luck, and thank you for checking out the project!**
