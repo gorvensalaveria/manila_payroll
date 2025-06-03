@@ -1,55 +1,108 @@
-Manila Payroll - Master File CRUD Application
+# 🎉 **Manila Payroll Master File – CRUD Application**
 
-This is a full-stack CRUD application for managing employee and department records, following the requirements from the ManilaPayroll.com Master File feature.
+A modern, full-stack **Employee & Department Management System** inspired by ManilaPayroll.com, built with:
 
-Main Features:
+* **Backend:** Node.js, Express, MySQL
+* **Frontend:** React, PrimeReact
 
-* Add new employee and department records
-* View, search, and sort records in tables
-* Edit existing records
-* Delete records with confirmation
-* Input validation and user-friendly error messages
-* Export employee data
-
-Project Structure:
-manila-payroll/
-backend/      (Express + MySQL REST API)
-frontend/     (React + PrimeReact web app)
-README.md
-
-Getting Started:
-
-Backend Setup:
-
-1. Go to the backend folder: cd backend
-2. Copy .env.example to .env and set your MySQL details (DB\_HOST, DB\_USER, DB\_PASSWORD, DB\_NAME, PORT).
-3. Install dependencies: npm install
-4. Start the backend server: npm run dev
-   The backend runs on [http://localhost:3000/](http://localhost:3000/)
-
-Frontend Setup:
-
-1. Go to the frontend folder: cd ../frontend
-2. Copy .env.example to .env and set the backend API URL (REACT\_APP\_API\_URL=[http://localhost:3000/api](http://localhost:3000/api))
-3. Install dependencies: npm install
-4. Start the frontend app: npm start
-   The frontend runs on [http://localhost:3001/](http://localhost:3001/) (or another available port)
-
-Usage:
-
-* Open the frontend app in your browser.
-* Use the UI to add, view, edit, or delete employees and departments.
-* The employee table is searchable and sortable.
-* All changes are saved in the MySQL database.
-
-Tech Stack:
-
-* Frontend: React, PrimeReact, Axios
-* Backend: Node.js, Express, MySQL
-
-License: MIT
+<br />
 
 ---
 
-If you want it **even more plain** (as in literally just plain text), let me know.
-Otherwise, this is perfectly readable on GitHub, and doesn’t use any Markdown formatting besides dashes for lists.
+## 🌈 **Features**
+
+* **Dashboard** with analytics and recent employee records
+* **Employee Master Table** with create, read, update, delete (CRUD)
+* **Department Management** (CRUD)
+* **Search, Sort, Filter** for both tables
+* **Responsive UI** with PrimeReact components
+* **Validation & Friendly Error Messages**
+* **Data Export** feature
+
+<br />
+
+---
+
+## 🚀 **Screenshots**
+
+### **Dashboard**
+
+![Dashboard](./assets/dashboard.png)
+
+### **Employee Management**
+
+![Employee Management](./assets/employees.png)
+
+### **Department Management**
+
+![Department Management](./assets/departments.png)
+
+> 📸 **How to add your screenshots:**
+>
+> 1. Create an `assets` folder at the root of your repo.
+> 2. Upload your screenshots (PNG/JPG) into that folder.
+> 3. Rename your files: `dashboard.png`, `employees.png`, `departments.png`.
+> 4. The images will now appear above in your README.
+
+<br />
+
+---
+
+## 🛠 **How to Run the Project**
+
+### **Backend Setup**
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+### **Frontend Setup**
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+The frontend will run by default at [http://localhost:3001](http://localhost:3001).
+
+> **Note:**
+>
+> * Make sure your MySQL server is running and credentials are correct in `backend/.env`.
+> * Default API URL for frontend: `REACT_APP_API_URL=http://localhost:3001/api` (set in `frontend/.env`).
+
+---
+
+## 📦 **Project Structure**
+
+```
+Manila_Payroll/
+  ├── backend/
+  │   ├── routes/
+  │   ├── src/
+  │   ├── node_modules/
+  │   └── ...
+  └── frontend/
+      ├── src/
+      ├── node_modules/
+      └── ...
+```
+
+---
+
+## ✨ **Credits & Author**
+
+* **Developed by:** [Gorven Salaveria](https://github.com/gorvensalaveria)
+* **Coding Challenge for:** Jimmy Dagum, Jimmyzel Software
+
+---
+
+## 📄 **License**
+
+This project is for assessment/demo purposes only.
+
+---
+
+**Good luck, and thank you for checking out the project!**
