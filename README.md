@@ -27,22 +27,16 @@ A modern, full-stack **Employee & Department Management System** inspired by Man
 
 ### **Dashboard**
 
-![Dashboard](./assets/dashboard.png)
+![Dashboard](./assets/image.png)
 
 ### **Employee Management**
 
-![Employee Management](./assets/employees.png)
+![Employee Management](./assets/image2.png)
 
 ### **Department Management**
 
-![Department Management](./assets/departments.png)
+![Department Management](./assets/image3.png)
 
-> 📸 **How to add your screenshots:**
->
-> 1. Create an `assets` folder at the root of your repo.
-> 2. Upload your screenshots (PNG/JPG) into that folder.
-> 3. Rename your files: `dashboard.png`, `employees.png`, `departments.png`.
-> 4. The images will now appear above in your README.
 
 <br />
 
