@@ -43,7 +43,7 @@ const Employees = () => {
   useEffect(() => {
     fetchEmployees();
     fetchDepartments();
-  }, []);
+  }, [fetchEmployees, fetchDepartments]);
 
   const fetchEmployees = async () => {
     try {

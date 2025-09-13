@@ -30,7 +30,7 @@ const Departments = () => {
 
   useEffect(() => {
     fetchDepartments();
-  }, []);
+  }, [fetchDepartments]);
 
   const fetchDepartments = async () => {
     try {
