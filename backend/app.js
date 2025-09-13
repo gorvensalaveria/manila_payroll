@@ -19,6 +19,9 @@ var employeesRouter = require("./routes/employees");
 var departmentsRouter = require("./routes/departments");
 var usersRouter = require("./routes/users");
 
+const cors = require("cors");
+app.use(cors());
+
 // Generating an express app
 
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3001";
@@ -252,7 +255,7 @@ process.on("uncaughtException", (error) => {
   process.exit();
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
