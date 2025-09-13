@@ -40,33 +40,19 @@ const Employees = () => {
   const dt = useRef(null);
   const { showSuccess, showError } = useToast();
 
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        setLoading(true);
-        const response = await employeeAPI.getAll();
-        setEmployees(response.data.data);
-      } catch (error) {
-        showError("Error", "Failed to fetch employees");
-        console.error("Error fetching employees:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const fetchDepartments = async () => {
-      try {
-        const response = await departmentAPI.getAll();
-        setDepartments(response.data.data);
-      } catch (error) {
-        showError("Error", "Failed to fetch departments");
-        console.error("Error fetching departments:", error);
-      }
-    };
-
-    fetchDepartments();
-    fetchEmployees();
-  }, []); // ✅ No dependencies
+  // Top-level fetch functions
+  const fetchEmployees = async () => {
+    try {
+      setLoading(true);
+      const response = await employeeAPI.getAll();
+      setEmployees(response.data.data);
+    } catch (error) {
+      showError("Error", "Failed to fetch employees");
+      console.error("Error fetching employees:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchDepartments = async () => {
     try {
@@ -77,6 +63,11 @@ const Employees = () => {
       console.error("Error fetching departments:", error);
     }
   };
+
+  useEffect(() => {
+    fetchDepartments();
+    fetchEmployees();
+  }, []);
 
   const openNew = () => {
     setFormData({
@@ -220,73 +211,60 @@ const Employees = () => {
     dt.current.exportCSV();
   };
 
-  // Template functions for DataTable columns
-  const avatarBodyTemplate = (rowData) => {
-    return (
-      <div className="employee-avatar">
-        {rowData.first_name.charAt(0)}
-        {rowData.last_name.charAt(0)}
+  // DataTable templates
+  const avatarBodyTemplate = (rowData) => (
+    <div className="employee-avatar">
+      {rowData.first_name.charAt(0)}
+      {rowData.last_name.charAt(0)}
+    </div>
+  );
+
+  const nameBodyTemplate = (rowData) => (
+    <div>
+      <div style={{ fontWeight: "600" }}>
+        {rowData.first_name} {rowData.last_name}
       </div>
-    );
-  };
-
-  const nameBodyTemplate = (rowData) => {
-    return (
-      <div>
-        <div style={{ fontWeight: "600" }}>
-          {rowData.first_name} {rowData.last_name}
-        </div>
-        <div style={{ fontSize: "0.875rem", color: "#6c757d" }}>
-          {rowData.employee_id}
-        </div>
+      <div style={{ fontSize: "0.875rem", color: "#6c757d" }}>
+        {rowData.employee_id}
       </div>
-    );
-  };
+    </div>
+  );
 
-  const departmentBodyTemplate = (rowData) => {
-    return (
-      <span className="department-chip">
-        {rowData.department_name || "No Department"}
-      </span>
-    );
-  };
+  const departmentBodyTemplate = (rowData) => (
+    <span className="department-chip">
+      {rowData.department_name || "No Department"}
+    </span>
+  );
 
-  const salaryBodyTemplate = (rowData) => {
-    return (
-      <span className="salary-amount">₱{rowData.salary?.toLocaleString()}</span>
-    );
-  };
+  const salaryBodyTemplate = (rowData) => (
+    <span className="salary-amount">₱{rowData.salary?.toLocaleString()}</span>
+  );
 
-  const statusBodyTemplate = (rowData) => {
-    return (
-      <span className={`status-badge status-${rowData.status}`}>
-        {rowData.status}
-      </span>
-    );
-  };
+  const statusBodyTemplate = (rowData) => (
+    <span className={`status-badge status-${rowData.status}`}>
+      {rowData.status}
+    </span>
+  );
 
-  const hireDateBodyTemplate = (rowData) => {
-    return format(new Date(rowData.hire_date), "MMM dd, yyyy");
-  };
+  const hireDateBodyTemplate = (rowData) =>
+    format(new Date(rowData.hire_date), "MMM dd, yyyy");
 
-  const actionBodyTemplate = (rowData) => {
-    return (
-      <div className="flex gap-2">
-        <Button
-          icon="pi pi-pencil"
-          className="p-button-rounded p-button-success p-button-text"
-          onClick={() => editEmployee(rowData)}
-          tooltip="Edit"
-        />
-        <Button
-          icon="pi pi-trash"
-          className="p-button-rounded p-button-danger p-button-text"
-          onClick={() => deleteEmployee(rowData)}
-          tooltip="Delete"
-        />
-      </div>
-    );
-  };
+  const actionBodyTemplate = (rowData) => (
+    <div className="flex gap-2">
+      <Button
+        icon="pi pi-pencil"
+        className="p-button-rounded p-button-success p-button-text"
+        onClick={() => editEmployee(rowData)}
+        tooltip="Edit"
+      />
+      <Button
+        icon="pi pi-trash"
+        className="p-button-rounded p-button-danger p-button-text"
+        onClick={() => deleteEmployee(rowData)}
+        tooltip="Delete"
+      />
+    </div>
+  );
 
   const header = (
     <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
