@@ -41,22 +41,32 @@ const Employees = () => {
   const { showSuccess, showError } = useToast();
 
   useEffect(() => {
-    fetchEmployees();
-    fetchDepartments();
-  }, [fetchEmployees, fetchDepartments]);
+    const fetchEmployees = async () => {
+      try {
+        setLoading(true);
+        const response = await employeeAPI.getAll();
+        setEmployees(response.data.data);
+      } catch (error) {
+        showError("Error", "Failed to fetch employees");
+        console.error("Error fetching employees:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchEmployees = async () => {
-    try {
-      setLoading(true);
-      const response = await employeeAPI.getAll();
-      setEmployees(response.data.data);
-    } catch (error) {
-      showError("Error", "Failed to fetch employees");
-      console.error("Error fetching employees:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchDepartments = async () => {
+      try {
+        const response = await departmentAPI.getAll();
+        setDepartments(response.data.data);
+      } catch (error) {
+        showError("Error", "Failed to fetch departments");
+        console.error("Error fetching departments:", error);
+      }
+    };
+
+    fetchDepartments();
+    fetchEmployees();
+  }, []); // ✅ No dependencies
 
   const fetchDepartments = async () => {
     try {

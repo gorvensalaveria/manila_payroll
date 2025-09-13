@@ -29,21 +29,21 @@ const Departments = () => {
   const { showSuccess, showError } = useToast();
 
   useEffect(() => {
-    fetchDepartments();
-  }, [fetchDepartments]);
+    const fetchDepartments = async () => {
+      try {
+        setLoading(true);
+        const response = await departmentAPI.getAll();
+        setDepartments(response.data.data);
+      } catch (error) {
+        showError("Error", "Failed to fetch departments");
+        console.error("Error fetching departments:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchDepartments = async () => {
-    try {
-      setLoading(true);
-      const response = await departmentAPI.getAll();
-      setDepartments(response.data.data);
-    } catch (error) {
-      showError("Error", "Failed to fetch departments");
-      console.error("Error fetching departments:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchDepartments();
+  }, []); // ✅ No dependencies
 
   const openNew = () => {
     setFormData({

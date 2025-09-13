@@ -14,21 +14,21 @@ const Dashboard = () => {
   const { showError } = useToast();
 
   useEffect(() => {
-    fetchStats();
-  }, [fetchStats]);
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const response = await statsAPI.getStats();
+        setStats(response.data.data);
+      } catch (error) {
+        showError("Error", "Failed to fetch dashboard statistics");
+        console.error("Error fetching stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchStats = async () => {
-    try {
-      setLoading(true);
-      const response = await statsAPI.getStats();
-      setStats(response.data.data);
-    } catch (error) {
-      showError("Error", "Failed to fetch dashboard statistics");
-      console.error("Error fetching stats:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchStats();
+  }, []); // ✅ No dependencies, safe for production
 
   const getDepartmentChartData = () => {
     if (!stats?.departmentBreakdown) return {};
