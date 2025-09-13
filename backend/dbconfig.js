@@ -32,10 +32,10 @@ async function initializeDatabase() {
     console.log("✅ MySQL Connection established");
 
     // Create database if it doesn't exist
-    await initConnection.query(
-      `CREATE DATABASE IF NOT EXISTS ${dbConfig.database}`
-    );
-    console.log(`✅ Database '${dbConfig.database}' is ready`);
+    // await initConnection.query(
+    //   `CREATE DATABASE IF NOT EXISTS ${dbConfig.database}`
+    // );
+    // console.log(`✅ Database '${dbConfig.database}' is ready`);
 
     // Close the initialization connection
     await initConnection.end();
