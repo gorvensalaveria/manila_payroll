@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
@@ -28,22 +28,23 @@ const Departments = () => {
   const dt = useRef(null);
   const { showSuccess, showError } = useToast();
 
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        setLoading(true);
-        const response = await departmentAPI.getAll();
-        setDepartments(response.data.data);
-      } catch (error) {
-        showError("Error", "Failed to fetch departments");
-        console.error("Error fetching departments:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // ✅ Define fetchDepartments outside useEffect so it can be reused
+  const fetchDepartments = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await departmentAPI.getAll();
+      setDepartments(response.data.data);
+    } catch (error) {
+      showError("Error", "Failed to fetch departments");
+      console.error("Error fetching departments:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [showError]);
 
+  useEffect(() => {
     fetchDepartments();
-  }, []); // ✅ No dependencies
+  }, [fetchDepartments]);
 
   const openNew = () => {
     setFormData({
@@ -67,9 +68,7 @@ const Departments = () => {
 
   const validateForm = () => {
     const errors = {};
-
     if (!formData.name.trim()) errors.name = "Department name is required";
-
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -93,7 +92,7 @@ const Departments = () => {
       }
 
       setDialogVisible(false);
-      fetchDepartments();
+      fetchDepartments(); // ✅ Now works
     } catch (error) {
       const errorMessage =
         error.response?.data?.error || "Failed to save department";
@@ -113,7 +112,7 @@ const Departments = () => {
         try {
           await departmentAPI.delete(department.id);
           showSuccess("Success", "Department deleted successfully");
-          fetchDepartments();
+          fetchDepartments(); // ✅ Now works
         } catch (error) {
           const errorMessage =
             error.response?.data?.error || "Failed to delete department";
@@ -129,61 +128,52 @@ const Departments = () => {
   };
 
   // Template functions for DataTable columns
-  const nameBodyTemplate = (rowData) => {
-    return (
-      <div>
-        <div style={{ fontWeight: "600", fontSize: "1rem" }}>
-          {rowData.name}
+  const nameBodyTemplate = (rowData) => (
+    <div>
+      <div style={{ fontWeight: "600", fontSize: "1rem" }}>{rowData.name}</div>
+      {rowData.description && (
+        <div
+          style={{
+            fontSize: "0.875rem",
+            color: "#6c757d",
+            marginTop: "0.25rem",
+          }}
+        >
+          {rowData.description}
         </div>
-        {rowData.description && (
-          <div
-            style={{
-              fontSize: "0.875rem",
-              color: "#6c757d",
-              marginTop: "0.25rem",
-            }}
-          >
-            {rowData.description}
-          </div>
-        )}
-      </div>
-    );
-  };
+      )}
+    </div>
+  );
 
-  const employeeCountBodyTemplate = (rowData) => {
-    return (
-      <div className="text-center">
-        <span className="department-chip">
-          {rowData.employee_count}{" "}
-          {rowData.employee_count === 1 ? "Employee" : "Employees"}
-        </span>
-      </div>
-    );
-  };
+  const employeeCountBodyTemplate = (rowData) => (
+    <div className="text-center">
+      <span className="department-chip">
+        {rowData.employee_count}{" "}
+        {rowData.employee_count === 1 ? "Employee" : "Employees"}
+      </span>
+    </div>
+  );
 
-  const createdDateBodyTemplate = (rowData) => {
-    return format(new Date(rowData.created_at), "MMM dd, yyyy");
-  };
+  const createdDateBodyTemplate = (rowData) =>
+    format(new Date(rowData.created_at), "MMM dd, yyyy");
 
-  const actionBodyTemplate = (rowData) => {
-    return (
-      <div className="flex gap-2">
-        <Button
-          icon="pi pi-pencil"
-          className="p-button-rounded p-button-success p-button-text"
-          onClick={() => editDepartment(rowData)}
-          tooltip="Edit"
-        />
-        <Button
-          icon="pi pi-trash"
-          className="p-button-rounded p-button-danger p-button-text"
-          onClick={() => deleteDepartment(rowData)}
-          tooltip="Delete"
-          disabled={rowData.employee_count > 0}
-        />
-      </div>
-    );
-  };
+  const actionBodyTemplate = (rowData) => (
+    <div className="flex gap-2">
+      <Button
+        icon="pi pi-pencil"
+        className="p-button-rounded p-button-success p-button-text"
+        onClick={() => editDepartment(rowData)}
+        tooltip="Edit"
+      />
+      <Button
+        icon="pi pi-trash"
+        className="p-button-rounded p-button-danger p-button-text"
+        onClick={() => deleteDepartment(rowData)}
+        tooltip="Delete"
+        disabled={rowData.employee_count > 0}
+      />
+    </div>
+  );
 
   const header = (
     <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -252,25 +242,22 @@ const Departments = () => {
             body={nameBodyTemplate}
             sortable
             style={{ width: "40%" }}
-          ></Column>
+          />
           <Column
             field="employee_count"
             header="Employees"
             body={employeeCountBodyTemplate}
             sortable
             style={{ width: "20%" }}
-          ></Column>
+          />
           <Column
             field="created_at"
             header="Created"
             body={createdDateBodyTemplate}
             sortable
             style={{ width: "20%" }}
-          ></Column>
-          <Column
-            body={actionBodyTemplate}
-            headerStyle={{ width: "20%" }}
-          ></Column>
+          />
+          <Column body={actionBodyTemplate} headerStyle={{ width: "20%" }} />
         </DataTable>
       </div>
 
