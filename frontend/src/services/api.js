@@ -2,7 +2,9 @@ import axios from "axios";
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:3000/api",
+  baseURL:
+    process.env.REACT_APP_API_URL ||
+    "https://manilapayrollbackend-production.up.railway.app/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -107,7 +109,7 @@ export const healthAPI = {
   check: () => {
     return axios.get(
       process.env.REACT_APP_API_URL?.replace("/api", "") ||
-        "http://localhost:3000/health"
+        "https://manilapayrollbackend-production.up.railway.app/api"
     );
   },
 };
