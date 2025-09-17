@@ -15,6 +15,14 @@ import { employeeAPI, departmentAPI } from "../services/api";
 import { useToast } from "../contexts/ToastContext";
 import { format } from "date-fns";
 
+// Safe date formatter
+const formatDate = (dateValue) => {
+  if (!dateValue) return "—";
+  const d = new Date(dateValue);
+  if (isNaN(d.getTime())) return "—";
+  return format(d, "MMM dd, yyyy");
+};
+
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -97,7 +105,7 @@ const Employees = () => {
       departmentId: employee.department_id,
       position: employee.position,
       salary: employee.salary,
-      hireDate: new Date(employee.hire_date),
+      hireDate: employee.hire_date ? new Date(employee.hire_date) : null,
       status: employee.status,
     });
     setFormErrors({});
@@ -246,8 +254,7 @@ const Employees = () => {
     </span>
   );
 
-  const hireDateBodyTemplate = (rowData) =>
-    format(new Date(rowData.hire_date), "MMM dd, yyyy");
+  const hireDateBodyTemplate = (rowData) => formatDate(rowData.hire_date);
 
   const actionBodyTemplate = (rowData) => (
     <div className="flex gap-2">
