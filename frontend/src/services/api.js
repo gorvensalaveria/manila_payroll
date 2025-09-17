@@ -4,7 +4,7 @@ import axios from "axios";
 const api = axios.create({
   baseURL:
     process.env.REACT_APP_API_URL ||
-    "https://manilapayrollbackend-production.up.railway.app/api",
+    "https://manilapayrollbackend-production.up.railway.app",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export const healthAPI = {
   check: () => {
     return axios.get(
       process.env.REACT_APP_API_URL?.replace("/api", "") ||
-        "https://manilapayrollbackend-production.up.railway.app/api"
+        "https://manilapayrollbackend-production.up.railway.app"
     );
   },
 };
