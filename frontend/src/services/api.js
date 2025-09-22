@@ -4,7 +4,7 @@ import axios from "axios";
 const api = axios.create({
   baseURL:
     process.env.REACT_APP_API_URL ||
-    "https://manilapayrollbackend-production-9f19.up.railway.app",
+    "https://manilapayrollbackend-production-9f19.up.railway.app/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
