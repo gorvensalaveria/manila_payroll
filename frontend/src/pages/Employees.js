@@ -138,15 +138,15 @@ const Employees = () => {
     try {
       setSubmitting(true);
       const employeeData = {
-        employeeId: formData.employeeId,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        employee_id: formData.employeeId,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
         email: formData.email,
         phone: formData.phone,
-        departmentId: formData.departmentId,
+        department_id: formData.departmentId,
         position: formData.position,
         salary: formData.salary,
-        hireDate: format(formData.hireDate, "yyyy-MM-dd"),
+        hire_date: format(formData.hireDate, "yyyy-MM-dd"),
         status: formData.status,
       };
 
